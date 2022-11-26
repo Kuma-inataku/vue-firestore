@@ -6,10 +6,16 @@ export default {
  data() {
   return {
     data: [],
+    ids: [],
     storeData: {
       name: "",
       doc: ""
-    }
+    },
+    updateData: {
+      name: "",
+      doc: ""
+    },
+    updateId: ""
   }
  },
   mounted: function () {
@@ -18,22 +24,29 @@ export default {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          console.log(doc);
-          console.log(doc.data());
+          // console.log(doc.data());
+          this.ids.push(doc.id);
           this.data.push(doc.data().name);
+          this.data.push(doc.data().doc);
         })
       });
+      console.log(this.ids)
   },
   methods: {
-    inputtedStoreData(event) {
-      console.log(event.target.value)
+    inputtedStoreName(event) {
       this.storeData.name = event.target.value;
-      console.log(this.storeData)
     },
-    inputtedDoc(event) {
-      console.log(event.target.value)
+    inputtedStoreDoc(event) {
       this.storeData.doc = event.target.value;
-      console.log(this.storeData)
+    },
+    inputtedUpdateName(event) {
+      this.updateData.name = event.target.value;
+    },
+    inputtedUpdateDoc(event) {
+      this.updateData.doc = event.target.value;
+    },
+    changeId(event) {
+      this.updateId = event.target.value;
     },
     store() {
       console.log("store");
@@ -49,8 +62,15 @@ export default {
       });
     },
     update() {
-      console.log("update")
-      // db.collection("talk").doc("D9hGpkxVwuUEYWBQFL4O").set({name:this.storeName});
+      console.log("update");
+      if (!this.updateId) {
+        alert("idがnull")
+        return;
+      }
+      db.collection("talk").doc(this.updateId).set({
+        name:this.updateData.name,
+        doc:this.updateData.doc
+      });
     },
 
   }
@@ -68,26 +88,32 @@ export default {
   <div>
     <h2>新規登録</h2>
     <form action="">
-        <div>
-          名前<input type="text" name="name" @input="inputtedStoreData">
-        </div>
-        <div>
-          Doc<input type="text" name="doc" @input="inputtedDoc">
-        </div>
-        <div>
-          登録<input type="button" @click="store()" value="登録">
-        </div>
+      <div>
+        名前<input type="text" name="name" @input="inputtedStoreName">
+      </div>
+      <div>
+        Doc<input type="text" name="doc" @input="inputtedStoreDoc">
+      </div>
+      <div>
+        登録<input type="button" @click="store()" value="登録">
+      </div>
     </form>
   </div>
   <div>
     <h2>更新（最初のIDのデータ）</h2>
     <form action="">
-        <div>
-            名前<input type="text" name="name">
-        </div>
-        <div>
-            更新<input type="button" @click="update()" value="登録">
-        </div>
+      <select name="id" @change="changeId">
+        <option v-for="(id, key) in ids" :key="key" :value="id" name="id">{{id}}</option>
+      </select>
+      <div>
+        名前<input type="text" name="name" @input="inputtedUpdateName">
+      </div>
+      <div>
+        Doc<input type="text" name="doc" @input="inputtedUpdateDoc">
+      </div>
+      <div>
+          更新<input type="button" @click="update()" value="登録">
+      </div>
     </form>
   </div>
 </template>
