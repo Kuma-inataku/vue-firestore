@@ -9,33 +9,48 @@ export default {
  },
  data() {
   return {
+    data: [],
     storeName: ""
   }
  },
- methods: {
-  inputtedStoreData(event) {
-    console.log(event);
-    console.log(this.storeName)
-    // storeNameにinput値を格納
+  mounted: function () {
+    console.log(this.data)
+    db.collection("test")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          this.data.push(doc.data().name);
+        })
+      });
+  },
+  methods: {
+    inputtedStoreData(event) {
+      console.log(event);
+      console.log(this.storeName)
+      // 1, storeNameにinput値を格納
 
-  },
-  store() {
-    console.log("store");
-    // this.storeNameを登録する値にする
-    db.collection("test").doc("D9hGpkxVwuUEYWBQFL4O").set({name:"ははは"});
-  },
-  update() {
-    console.log("update")
-  },
- }
+    },
+    store() {
+      console.log("store");
+      // 2, this.storeNameを登録する値にする
+      db.collection("test").doc("D9hGpkxVwuUEYWBQFL4O").set({name:"ははは"});
+    },
+    update() {
+      console.log("update")
+    },
+  }
 }
 </script>
 
 <template>
   <h1>Firestore</h1>
+  <h2>データ一覧</h2>
+    <!-- 一覧機能をここに移植 -->
+    <!-- <Firestore /> -->
   <div>
-    <h2>データ一覧</h2>
-    <Firestore />
+    <li v-for="(item, index) in data" :key="index">
+      {{ item }}
+    </li>
   </div>
   <div>
     <h2>新規登録</h2>
