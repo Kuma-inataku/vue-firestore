@@ -8,13 +8,14 @@ export default {
     }
   },
   mounted: function () {
+    console.log(this.data)
     db.collection("test")
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           this.data.push(doc.data().name);
         })
-      })
+      });
   },
 }
 </script>

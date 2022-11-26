@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
+    // ここにrouteを指定
 ]
 
 const router = createRouter({

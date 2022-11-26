@@ -1,18 +1,32 @@
 <script>
 import Firestore from "./components/Firestore.vue"
- 
+import db from "./firebase.js"
+
 export default {
  name: "App",
  components: {
    Firestore,
  },
+ data() {
+  return {
+    storeName: ""
+  }
+ },
  methods: {
+  inputtedStoreData(event) {
+    console.log(event);
+    console.log(this.storeName)
+    // storeNameにinput値を格納
+
+  },
   store() {
-    console.log("store")
+    console.log("store");
+    // this.storeNameを登録する値にする
+    db.collection("test").doc("D9hGpkxVwuUEYWBQFL4O").set({name:"ははは"});
   },
   update() {
     console.log("update")
-  }
+  },
  }
 }
 </script>
@@ -27,10 +41,10 @@ export default {
     <h2>新規登録</h2>
     <form action="">
         <div>
-            名前<input type="text" name="name">
+          名前<input type="text" name="name" @input="inputtedStoreData(event)">
         </div>
         <div>
-            登録<input type="button" @click="store()" value="登録">
+          登録<input type="button" @click="store()" value="登録">
         </div>
     </form>
   </div>
