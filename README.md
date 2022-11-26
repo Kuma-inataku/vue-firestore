@@ -27,3 +27,6 @@ npm run dev
 ```sh
 npm run build
 ```
+
+### 参考記事
+- https://www.harubears.com/ja/tech-ja/vue-js-ja/vue3-cli-with-firestore/
