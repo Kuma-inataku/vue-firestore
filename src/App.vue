@@ -11,7 +11,7 @@ export default {
  },
   mounted: function () {
     console.log(this.data)
-    db.collection("test")
+    db.collection("talk")
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -25,12 +25,20 @@ export default {
       console.log(this.storeName)
     },
     store() {
-      // let num = Math.floor(Math.random() * 10) + 1;
       console.log("store");
-      db.collection("test").doc("D9hGpkxVwuUEYWBQFL4O").set({name:this.storeName});
+      db.collection("talk").add({
+          name:this.storeName
+      })
+      .then((docRef) => {
+          console.log("Document written with ID: ", docRef.id);
+      })
+      .catch((error) => {
+          console.error("Error adding document: ", error);
+      });
     },
     update() {
       console.log("update")
+      // db.collection("talk").doc("D9hGpkxVwuUEYWBQFL4O").set({name:this.storeName});
     },
   }
 }
