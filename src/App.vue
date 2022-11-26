@@ -15,7 +15,8 @@ export default {
       name: "",
       doc: ""
     },
-    updateId: ""
+    updateId: "",
+    deleteId: ""
   }
  },
   mounted: function () {
@@ -48,6 +49,9 @@ export default {
     changeId(event) {
       this.updateId = event.target.value;
     },
+    changeDeleteId(event) {
+      this.deleteId = event.target.value;
+    },
     store() {
       console.log("store");
       db.collection("talk").add({
@@ -70,6 +74,19 @@ export default {
       db.collection("talk").doc(this.updateId).set({
         name:this.updateData.name,
         doc:this.updateData.doc
+      });
+    },
+    destroy() {
+      console.log("destroy");
+      if (!this.deleteId) {
+        alert("idがnull")
+        return;
+      }
+      db.collection("talk").doc(this.deleteId).delete()
+      .then(() => {
+          console.log("Document successfully deleted!");
+      }).catch((error) => {
+          console.error("Error removing document: ", error);
       });
     },
 
@@ -100,7 +117,7 @@ export default {
     </form>
   </div>
   <div>
-    <h2>更新（最初のIDのデータ）</h2>
+    <h2>更新</h2>
     <form action="">
       <select name="id" @change="changeId">
         <option v-for="(id, key) in ids" :key="key" :value="id" name="id">{{id}}</option>
@@ -112,7 +129,18 @@ export default {
         Doc<input type="text" name="doc" @input="inputtedUpdateDoc">
       </div>
       <div>
-          更新<input type="button" @click="update()" value="登録">
+          <input type="button" @click="update()" value="更新">
+      </div>
+    </form>
+  </div>
+  <div>
+    <h2>削除</h2>
+    <form action="">
+      <select name="id" @change="changeDeleteId">
+        <option v-for="(id, key) in ids" :key="key" :value="id" name="id">{{id}}</option>
+      </select>
+      <div>
+          <input type="button" @click="destroy()" value="削除">
       </div>
     </form>
   </div>
