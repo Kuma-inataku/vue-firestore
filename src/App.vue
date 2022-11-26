@@ -1,16 +1,50 @@
 <script>
-// import Firestore from "./components/Firestore.vue"
+import Firestore from "./components/Firestore.vue"
  
 export default {
  name: "App",
-//  components: {
-//    Firestore,
-//  },
+ components: {
+   Firestore,
+ },
+ methods: {
+  store() {
+    console.log("store")
+  },
+  update() {
+    console.log("update")
+  }
+ }
 }
 </script>
 
 <template>
-  <router-view />
+  <h1>Firestore</h1>
+  <div>
+    <h2>データ一覧</h2>
+    <Firestore />
+  </div>
+  <div>
+    <h2>新規登録</h2>
+    <form action="">
+        <div>
+            名前<input type="text" name="name">
+        </div>
+        <div>
+            登録<input type="button" @click="store()" value="登録">
+        </div>
+    </form>
+  </div>
+  <div>
+    <h2>更新（最初のIDのデータ）</h2>
+    <form action="">
+        <div>
+            名前<input type="text" name="name">
+        </div>
+        <div>
+            更新<input type="button" @click="update()" value="登録">
+        </div>
+    </form>
+  </div>
 </template>
 
 <style scoped>

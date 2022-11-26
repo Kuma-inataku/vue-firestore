@@ -12,8 +12,7 @@ export default {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          console.log(`${doc.id} => ${doc.data().name}`)
-          this.data.push(doc.data().name)
+          this.data.push(doc.data().name);
         })
       })
   },
@@ -21,7 +20,6 @@ export default {
 </script>
 <template>
   <div>
-    <h1>Firestore Test</h1>
     <li v-for="(item, index) in data" :key="index">
       {{ item }}
     </li>
