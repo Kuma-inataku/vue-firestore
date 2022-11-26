@@ -1,16 +1,16 @@
 <script>
-import Firestore from "./components/Firestore.vue"
+// import Firestore from "./components/Firestore.vue"
  
 export default {
  name: "App",
- components: {
-   Firestore,
- },
+//  components: {
+//    Firestore,
+//  },
 }
 </script>
 
 <template>
- <Firestore />
+  <router-view />
 </template>
 
 <style scoped>
