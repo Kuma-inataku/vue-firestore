@@ -6,7 +6,10 @@ export default {
  data() {
   return {
     data: [],
-    storeName: ""
+    storeData: {
+      name: "",
+      doc: ""
+    }
   }
  },
   mounted: function () {
@@ -15,19 +18,28 @@ export default {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
+          console.log(doc);
+          console.log(doc.data());
           this.data.push(doc.data().name);
         })
       });
   },
   methods: {
     inputtedStoreData(event) {
-      this.storeName = event.target.value;
-      console.log(this.storeName)
+      console.log(event.target.value)
+      this.storeData.name = event.target.value;
+      console.log(this.storeData)
+    },
+    inputtedDoc(event) {
+      console.log(event.target.value)
+      this.storeData.doc = event.target.value;
+      console.log(this.storeData)
     },
     store() {
       console.log("store");
       db.collection("talk").add({
-          name:this.storeName
+          name:this.storeData.name,
+          doc:this.storeData.doc
       })
       .then((docRef) => {
           console.log("Document written with ID: ", docRef.id);
@@ -40,6 +52,7 @@ export default {
       console.log("update")
       // db.collection("talk").doc("D9hGpkxVwuUEYWBQFL4O").set({name:this.storeName});
     },
+
   }
 }
 </script>
@@ -47,18 +60,19 @@ export default {
 <template>
   <h1>Firestore</h1>
   <h2>データ一覧</h2>
-    <!-- 一覧機能をここに移植 -->
-    <!-- <Firestore /> -->
-  <div>
+  <ul>
     <li v-for="(item, index) in data" :key="index">
       {{ item }}
     </li>
-  </div>
+  </ul>
   <div>
     <h2>新規登録</h2>
     <form action="">
         <div>
           名前<input type="text" name="name" @input="inputtedStoreData">
+        </div>
+        <div>
+          Doc<input type="text" name="doc" @input="inputtedDoc">
         </div>
         <div>
           登録<input type="button" @click="store()" value="登録">
