@@ -8,20 +8,19 @@ export default {
     }
   },
   mounted: function () {
+    console.log(this.data)
     db.collection("test")
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          console.log(`${doc.id} => ${doc.data().name}`)
-          this.data.push(doc.data().name)
+          this.data.push(doc.data().name);
         })
-      })
+      });
   },
 }
 </script>
 <template>
   <div>
-    <h1>Firestore Test</h1>
     <li v-for="(item, index) in data" :key="index">
       {{ item }}
     </li>

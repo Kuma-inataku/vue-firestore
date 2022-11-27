@@ -30,3 +30,6 @@ npm run build
 
 ### 参考記事
 - https://www.harubears.com/ja/tech-ja/vue-js-ja/vue3-cli-with-firestore/
+- vue3でVITEの環境変数の参照方法の違いにちょっと躓いた
+  - `import.meta.env.~`が正
+  - https://blog.okaryo.io/20220319-env-variables-for-vite
